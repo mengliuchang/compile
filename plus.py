@@ -3,8 +3,8 @@ import sys
 
 
 def test():
-    path = sys.argv[1]
-    # path = 'E:/大三上/编译原理/pre-词法分析/file.txt'
+    # path = sys.argv[1]
+    path = 'E:/大三上/编译原理/pre-词法分析/file.txt'
     content = read_file(path)
     word_list = content.split()
     for word in word_list:
@@ -16,17 +16,20 @@ def test():
                 l = len(word)
                 continue
             k = identifier(word)
-            if k != -1:
-                tmp = keyword(word, 0)
-                if tmp == -1 or tmp < k:
-                    word = word[k:]
+            if k is not None:
+                tmp = keyword(word)
+                if tmp is None or len(tmp) != len(k):
+                    # 不是关键字
+                    word = word[len(k):]
                     l = len(word)
+                    print("Ident(" + k + ")")
                     continue
-            k = keyword(word, 1)
-            if k != -1:
-                word = word[k:]
-                l = len(word)
-                continue
+                elif len(tmp) == len(k):
+                    # 是关键字
+                    word = word[len(tmp):]
+                    l = len(word)
+                    print(tmp)
+                    continue
             k = operate(word)
             if k != -1:
                 word = word[k:]
@@ -41,11 +44,10 @@ def identifier(input):
     form = re.compile(r'[0-9a-zA-Z_]+')
     result = re.match(form, input)
     if result is None:
-        return -1
+        return None
     else:
         loc = result.span()[1]
-        print('Ident(' + input[0:loc] + ')')
-        return loc
+        return input[0:loc]
 
 
 # 识别无符号整数
@@ -56,37 +58,25 @@ def number(input):
         return -1
     else:
         loc = result.span()[1]
-        print('Number(' + input[0:loc] + ')')
-        return result.span()[1]
+        print("Number(" + input[0:loc] + ")")
+        return loc
 
 
 # 识别关键字
-def keyword(input, flag):
+def keyword(input):
     if re.match('if', input) is not None:
-        if flag == 1:
-            print('If')
-        return 2
+        return "If"
     elif re.match('else', input) is not None:
-        if flag == 1:
-            print('Else')
-        return 4
+        return "Else"
     elif re.match('while', input) is not None:
-        if flag == 1:
-            print('While')
-        return 5
+        return "While"
     elif re.match('break', input) is not None:
-        if flag == 1:
-            print('Break')
-        return 5
+        return "Break"
     elif re.match('continue', input) is not None:
-        if flag == 1:
-            print('Continue')
-        return 8
+        return "Continue"
     elif re.match('return', input) is not None:
-        if flag == 1:
-            print('Return')
-        return 6
-    return -1
+        return "Return"
+    return None
 
 
 # 识别符号
