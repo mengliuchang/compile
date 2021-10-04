@@ -1,4 +1,4 @@
-[jobs.test-commit]
+[jobs.lexer]
 
 image = { source = "dockerfile", path = "."}
 
