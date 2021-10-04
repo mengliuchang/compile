@@ -1,4 +1,4 @@
-[jobs.pascal_lex]
+[jobs.test-commit]
 
 image = { source = "dockerfile", path = "."}
 
