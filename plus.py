@@ -10,7 +10,7 @@ def test():
         l = len(word)
         while l > 0:
             k = keyword(word)
-            if k != -1:
+            if k != -1 and k == len(word):
                 word = word[k:]
                 l = len(word)
                 continue
