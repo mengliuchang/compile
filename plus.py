@@ -10,6 +10,11 @@ def test():
     for word in word_list:
         l = len(word)
         while l > 0:
+            k = number(word)
+            if k != -1:
+                word = word[k:]
+                l = len(word)
+                continue
             k = identifier(word)
             if k != -1:
                 tmp = keyword(word, 0)
@@ -18,11 +23,6 @@ def test():
                     l = len(word)
                     continue
             k = keyword(word, 1)
-            if k != -1:
-                word = word[k:]
-                l = len(word)
-                continue
-            k = number(word)
             if k != -1:
                 word = word[k:]
                 l = len(word)
