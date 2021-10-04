@@ -115,7 +115,7 @@ def operate(input):
         print('Lt')
         return 1
     elif re.match('>', input) is not None:
-        print('Rt')
+        print('Gt')
         return 1
     return -1
 
