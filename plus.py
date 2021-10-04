@@ -3,8 +3,8 @@ import sys
 
 
 def test():
-    # path = sys.argv[1]
-    path = 'E:/大三上/编译原理/pre-词法分析/file.txt'
+    path = sys.argv[1]
+    # path = 'E:/大三上/编译原理/pre-词法分析/file.txt'
     content = read_file(path)
     word_list = content.split()
     for word in word_list:
