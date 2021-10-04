@@ -4,22 +4,25 @@ import sys
 
 def test():
     path = sys.argv[1]
+    # path = 'E:/大三上/编译原理/pre-词法分析/file.txt'
     content = read_file(path)
     word_list = content.split()
     for word in word_list:
         l = len(word)
         while l > 0:
-            k = keyword(word)
-            if k != -1 and k == len(word):
-                word = word[k:]
-                l = len(word)
-                continue
-            k = number(word)
+            k = identifier(word)
+            if k != -1:
+                tmp = keyword(word, 0)
+                if tmp == -1 or tmp < k:
+                    word = word[k:]
+                    l = len(word)
+                    continue
+            k = keyword(word, 1)
             if k != -1:
                 word = word[k:]
                 l = len(word)
                 continue
-            k = identifier(word)
+            k = number(word)
             if k != -1:
                 word = word[k:]
                 l = len(word)
@@ -35,7 +38,7 @@ def test():
 
 # 识别标识符
 def identifier(input):
-    form = re.compile(r'[0-9a-zA-Z]+')
+    form = re.compile(r'[0-9a-zA-Z_]+')
     result = re.match(form, input)
     if result is None:
         return -1
@@ -58,24 +61,30 @@ def number(input):
 
 
 # 识别关键字
-def keyword(input):
+def keyword(input, flag):
     if re.match('if', input) is not None:
-        print('If')
+        if flag == 1:
+            print('If')
         return 2
     elif re.match('else', input) is not None:
-        print('Else')
+        if flag == 1:
+            print('Else')
         return 4
     elif re.match('while', input) is not None:
-        print('While')
+        if flag == 1:
+            print('While')
         return 5
     elif re.match('break', input) is not None:
-        print('Break')
+        if flag == 1:
+            print('Break')
         return 5
     elif re.match('continue', input) is not None:
-        print('Continue')
+        if flag == 1:
+            print('Continue')
         return 8
     elif re.match('return', input) is not None:
-        print('Return')
+        if flag == 1:
+            print('Return')
         return 6
     return -1
 
@@ -116,7 +125,7 @@ def operate(input):
         print('Lt')
         return 1
     elif re.match('>', input) is not None:
-        print('Gt')
+        print('Rt')
         return 1
     return -1
 
